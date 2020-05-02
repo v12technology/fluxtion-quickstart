@@ -167,14 +167,17 @@ readings in window : [(living  max:99 average:63.666666666666664)]
 SMS:0800-1-HELP-ROOMTEMP investigate:[living]
 ```
 ### Cached compilation
-The application generates a solution in the cache directory fluxtion , ready for a second run, 
-The directory contains three sub-directories:
+The application generates a solution in the cache directory fluxtion, set with 
+system property: -Dfluxtion.cacheDirectory=fluxtion. The fluxtion directory contains three sub-directories:
  - classes - compiled classes implementing the stream processing requirements
  - resources - meta-data describing the processor
  - sources - The java source files used to generate the classes 
 
 Executing the jar a second time sees a significant reduction in execution time as the 
-processor has been compiled ahead of time and is executed immediately. Deleting the cache directory will cause the regeneration and compilation of the solution. 
+application uses the compiled processor from the first run. The cached class is loaded internally by the reuseOrBuild method. 
+This gives an almost instant response to the application.
+
+Deleting the cache directory will cause the regeneration and compilation of the solution. 
 
 
 
