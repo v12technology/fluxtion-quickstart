@@ -2,6 +2,7 @@
 5 Minute tutorial to demonstrate processing of streaming data using Fluxtion. 
 The goal is to read sensor data for a set of rooms, calculate aggregate values per room and 
 notify a user class when a room breaches set temperature criteria.
+
 ## Requirements
  - Read room sensor temperature as a csv character stream or as instances of SensorReading events. 
  - Merge csv and SensorReading's into a single event stream for processing
@@ -13,6 +14,68 @@ notify a user class when a room breaches set temperature criteria.
 	 - Log a warning
 	 - A user class(TempertureController) will attempt to send an SMS listing rooms to investigate
  - Register an SMS endpoint with the controller by sending a String as an event into the processor
+
+## Code description
+The SensorMonitor builds a streaming processing engine in the main, referring to a builder using a method reference
+```java
+StaticEventProcessor processor = reuseOrBuild("RoomSensorSEP", "com.fluxtion.quickstart.roomsensor.generated", SensorMonitor::buildSensorProcessor);
+
+```
+
+The builder method constructs the processor with the following definition: 
+
+```java
+public static void buildSensorProcessor(SEPConfig cfg) {
+    //merge csv marshller and SensorReading instance events
+    Wrapper<SensorReading> sensorData = merge(select(SensorReading.class),
+            csvMarshaller(SensorReading.class).build()).console(" -> \t");
+    //group by sensor and calculate max, average
+    GroupBy<SensorReadingDerived> sensors = groupBy(sensorData, SensorReading::getSensorName, SensorReadingDerived.class)
+            .init(SensorReading::getSensorName, SensorReadingDerived::setSensorName)
+            .max(SensorReading::getValue, SensorReadingDerived::setMax)
+            .avg(SensorReading::getValue, SensorReadingDerived::setAverage)
+            .build();
+    //tumble window (count=3), warning if avg > 60 && max > 90 in the window for a sensor
+    tumble(sensors, 3).console("readings in window : ", GroupBy::collection)
+            .map(SensorMonitor::warningSensors, GroupBy::collection)
+            .filter(c -> c.size() > 0)
+            .console("**** WARNING **** sensors to investigate:")
+            .push(new TempertureController()::investigateSensors);
+}
+```
+
+The builder refers to two helper instances that define the input and output datatypes:
+
+```java
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    public static class SensorReading {
+
+        private String sensorName;
+        private int value;
+
+        @Override
+        public String toString() {
+            return sensorName + ":" + value;
+        }
+    }
+
+    @Data
+    public static class SensorReadingDerived {
+
+        private String sensorName;
+        private int max;
+        private double average;
+
+        @Override
+        public String toString() {
+            return "(" + sensorName + "  max:" + max + " average:" + average + ")";
+        }
+    }
+```
+
+
 ## Running the application
 Clone the application and execute the sensorquickstart.jar in the dist directory. The application will 
 process the file temperatureData.csv as an input. After the csv file is read 
@@ -56,30 +119,5 @@ The application generates a solution in the cache directory fluxtion , ready for
 
 Executing the jar a second time sees a significant reduction in execution time as the processor has been compiled ahead of time and is executed immediately. Deleting the cache directory will cause the regeneration and compilation of the solution. 
 
-## Code description
-The SensorMonitor builds a streaming processing engine in the main method
-```java
-StaticEventProcessor processor = reuseOrBuild("RoomSensorSEP", "com.fluxtion.quickstart.roomsensor.generated", SensorMonitor::buildSensorProcessor);
 
-```
-The actual method that performs the build is: 
-```java
-public static void buildSensorProcessor(SEPConfig cfg) {
-    //merge csv marshller and SensorReading instance events
-    Wrapper<SensorReading> sensorData = merge(select(SensorReading.class),
-            csvMarshaller(SensorReading.class).build()).console(" -> \t");
-    //group by sensor and calculate max, average
-    GroupBy<SensorReadingDerived> sensors = groupBy(sensorData, SensorReading::getSensorName, SensorReadingDerived.class)
-            .init(SensorReading::getSensorName, SensorReadingDerived::setSensorName)
-            .max(SensorReading::getValue, SensorReadingDerived::setMax)
-            .avg(SensorReading::getValue, SensorReadingDerived::setAverage)
-            .build();
-    //tumble window (count=3), warning if avg > 60 && max > 90 in the window for a sensor
-    tumble(sensors, 3).console("readings in window : ", GroupBy::collection)
-            .map(SensorMonitor::warningSensors, GroupBy::collection)
-            .filter(c -> c.size() > 0)
-            .console("**** WARNING **** sensors to investigate:")
-            .push(new TempertureController()::investigateSensors);
-}
-```
 
