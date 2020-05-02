@@ -1,7 +1,7 @@
 # Introduction
 5 Minute tutorial to demonstrate processing of streaming data using Fluxtion. 
 The goal is to read sensor data for a set of rooms, calculate aggregate values per room and 
-notify a user class when a room breaches set criteria.
+notify a user class when a room breaches set temperature criteria.
 ## Requirements
  - Read room sensor temperature as a csv character stream or as instances of SensorReading events. 
  - Merge csv and SensorReading's into a single event stream for processing
@@ -15,8 +15,8 @@ notify a user class when a room breaches set criteria.
  - Register an SMS endpoint with the controller by sending a String as an event into the processor
 ## Running the application
 Clone the application and execute the sensorquickstart.jar in the dist directory. The application will 
-process the temperatureData.csv, loggin the output to screen, followed by programatically posted
-sensor reading events.
+process the file temperatureData.csv as an input. After the csv file is read 
+sensor reading events are programatically sent to the processor.
 ```bat
 git clone https://github.com/v12technology/fluxtion-quickstart.git
 cd fluxrtion-quickstart
