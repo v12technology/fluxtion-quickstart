@@ -30,7 +30,7 @@ the dependencies required for fluxtion. The maven dependency is:
 The [SensorMonitor](src/main/java/com/fluxtion/quickstart/roomsensor/SensorMonitor.java) 
 builds a streaming processing engine in the main, referring to a builder using a method reference.
  The two string parameters are used as the fully qualified name of the generated stream processing class.
-The call to reuseOrBuild will check the classpath for class that matches the fully qualified name. If no 
+The call to reuseOrBuild checks the classpath for a class that matches the fully qualified name. If no 
 class can be loaded for that fqn, then a new stream processor is generated.
 
 ```java
