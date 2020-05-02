@@ -47,34 +47,72 @@ public static void buildSensorProcessor(SEPConfig cfg) {
 The builder refers to two helper instances that define the input and output datatypes:
 
 ```java
-    @Data
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class SensorReading {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+public static class SensorReading {
 
-        private String sensorName;
-        private int value;
+    private String sensorName;
+    private int value;
 
-        @Override
-        public String toString() {
-            return sensorName + ":" + value;
-        }
+    @Override
+    public String toString() {
+        return sensorName + ":" + value;
     }
+}
 
-    @Data
-    public static class SensorReadingDerived {
+@Data
+public static class SensorReadingDerived {
 
-        private String sensorName;
-        private int max;
-        private double average;
+    private String sensorName;
+    private int max;
+    private double average;
 
-        @Override
-        public String toString() {
-            return "(" + sensorName + "  max:" + max + " average:" + average + ")";
-        }
+    @Override
+    public String toString() {
+        return "(" + sensorName + "  max:" + max + " average:" + average + ")";
     }
+}
 ```
 
+A user supplied mapping function converts the aggregated sensor data for all 
+rooms and creates a collection of room names that require investigation:
+
+
+```java
+public static Collection<String> warningSensors(Collection<SensorReadingDerived> readings) {
+    return readings.stream()
+            .filter(s -> s.getMax() > 90).filter(s -> s.getAverage() > 60)
+            .map(SensorReadingDerived::getSensorName)
+            .collect(Collectors.toList());
+}
+```
+
+A user supplied controller instance is registered with the stream processor. When 
+the list of rooms to investigate is > 0, the list is pushed by the processor to 
+the user controller class. The controller class also annotates a method as receiving
+a String as an event. The processor will route String events to the controller class
+
+ ```java
+public static class TempertureController {
+
+    private String smsDetails;
+
+    public void investigateSensors(Collection<String> sensors) {
+        if (smsDetails == null) {
+            System.out.println("NO SMS details registered, controller impotent");
+        } else {
+            System.out.println("SMS:" + smsDetails + " investigate:" + sensors);
+        }
+    }
+
+    @EventHandler
+    public void setSmsDetails(String details) {
+        System.out.println("Temp controller registering sms details:" + details);
+        this.smsDetails = details;
+    }
+}
+```
 
 ## Running the application
 Clone the application and execute the sensorquickstart.jar in the dist directory. The application will 
