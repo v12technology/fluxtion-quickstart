@@ -23,7 +23,7 @@ the dependencies required for fluxtion. The maven dependency is:
     <dependency>
         <groupId>com.fluxtion.extension</groupId>
         <artifactId>fluxtion-text-builder</artifactId>
-        <version>${fluxtion.ver}</version>
+        <version>2.5.1</version>
     </dependency>
 ```
 
