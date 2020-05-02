@@ -133,7 +133,7 @@ public static class TempertureController {
 
 ## Running the application
 Clone the application and execute the sensorquickstart.jar in the dist directory. The application will 
-process the file temperatureData.csv as an input. After the csv file is read 
+process the file temperatureData.csv as an input. After completing reading the csv file 
 sensor reading events are programatically sent to the processor.
 ```bat
 git clone https://github.com/v12technology/fluxtion-quickstart.git
@@ -167,12 +167,14 @@ readings in window : [(living  max:99 average:63.666666666666664)]
 SMS:0800-1-HELP-ROOMTEMP investigate:[living]
 ```
 ### Cached compilation
-The application generates a solution in the cache directory fluxtion , ready for a second run, The directory contains three sub-directories:
+The application generates a solution in the cache directory fluxtion , ready for a second run, 
+The directory contains three sub-directories:
  - classes - compiled classes implementing the stream processing requirements
  - resources - meta-data describing the processor
  - sources - The java source files used to generate the classes 
 
-Executing the jar a second time sees a significant reduction in execution time as the processor has been compiled ahead of time and is executed immediately. Deleting the cache directory will cause the regeneration and compilation of the solution. 
+Executing the jar a second time sees a significant reduction in execution time as the 
+processor has been compiled ahead of time and is executed immediately. Deleting the cache directory will cause the regeneration and compilation of the solution. 
 
 
 
