@@ -16,6 +16,17 @@ notify a user class when a room breaches set temperature criteria.
  - Register an SMS endpoint with the controller by sending a String as an event into the processor
 
 ## Code description
+The application depeneds upon the fluxtion-text-builder library. This brings in all
+the dependencies required for fluxtion. The maven dependency is:
+
+```xml
+    <dependency>
+        <groupId>com.fluxtion.extension</groupId>
+        <artifactId>fluxtion-text-builder</artifactId>
+        <version>${fluxtion.ver}</version>
+    </dependency>
+```
+
 The SensorMonitor builds a streaming processing engine in the main, referring to a builder using a method reference
 ```java
 StaticEventProcessor processor = reuseOrBuild("RoomSensorSEP", "com.fluxtion.quickstart.roomsensor.generated", SensorMonitor::buildSensorProcessor);
