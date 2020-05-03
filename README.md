@@ -4,6 +4,11 @@ The goal is to read a sensor data stream for a set of rooms, calculate aggregate
 notify a user class when a room breaches set temperature criteria. The user class
 will send an SMS alert when notified, if a number has been registered. 
 
+To get benefit out of this tutorial you should have:
+
+ - A passing understanding of [stream processing]([https://dzone.com/articles/what-is-stream-processing-a-gentle-introduction](https://dzone.com/articles/what-is-stream-processing-a-gentle-introduction))
+ - Intermediate Java coding skills combined with basic knowledge of git and maven
+
 # Requirements
  - Read room sensor temperature as a stream of csv records or as instances of SensorReading events. 
  - Merge csv records and SensorReading instances into a single event stream for processing
