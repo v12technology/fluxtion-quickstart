@@ -105,9 +105,12 @@ public static Collection<String> warningSensors(Collection<SensorReadingDerived>
 ```
 
 A user supplied controller instance is registered with the stream processor. When 
-the list of rooms to investigate is > 0, the list is pushed by the processor to 
-the user controller class. The controller class also annotates a method as receiving
-a String as an event. The processor will route String events to the controller class
+the list of rooms to investigate is > 0, the list is pushed to 
+the user controller class. 
+
+To register an SMS endpoint the controller class annotates a method as receiving
+a String as an event. The processor will route any String to the controller class 
+method.
  ```java
 public static class TempertureController {
 
@@ -131,15 +134,16 @@ public static class TempertureController {
 
 ## Running the application
 Clone the application and execute the sensorquickstart.jar in the dist directory. 
-The application processes the file temperatureData.csv as an input in place of real sensor source. 
-An alert condition is met, but no SMS endoint is registered so the controller cannot send a message.
+The application processes the file [temperatureData.csv](https://github.com/v12technology/fluxtion-quickstart/blob/1.0.0/temperatureData.csv) 
+as an input in place of real sensor source. 
+The last three records trigger an alert condition. No SMS endoint is registered so the controller is unable to send a message.
 
 After reading the csv file SensorReading events are programatically sent to the processor, 
 to register an SMS number and create an alert condition. In this case the 
 controller can now send an SMS message. 
 ```bat
 git clone https://github.com/v12technology/fluxtion-quickstart.git
-cd fluxrtion-quickstart
+cd fluxtion-quickstart
 java  -Dfluxtion.cacheDirectory=fluxtion -jar dist\sensorquickstart.jar
 21:40:45.991 [main] INFO  c.f.generator.compiler.SepCompiler - generated sep: C:\quickstart\fluxtion\source\com\fluxtion\quickstart\roomsensor\generated\RoomSensorSEP.java
  ->     bathroom:45
@@ -176,8 +180,21 @@ system property: -Dfluxtion.cacheDirectory=fluxtion. The fluxtion directory cont
  - sources - The java source files used to generate the classes 
 
 Executing the jar a second time sees a significant reduction in execution time as the 
-application uses the compiled processor from the first run. The cached classes are loaded internally by the reuseOrBuild method. Using the cached compiled classes gives an almost instant response to the event stream in the application.
+application uses the compiled processor from the first run. The cached classes 
+are loaded internally by the reuseOrBuild method. Using the cached compiled classes 
+gives an almost instant response to the event stream in the application.
 
 Deleting the cache directory will cause the regeneration and compilation of the solution. 
+
+### Generated files
+A fuller description is in the wiki here. 
+ - source - A CSV marshaller and stream processing solution are generated here. 
+    - The main entry point to the stream processor is RoomSensorSEP.java
+    - The CVS marshaller is SensorReadingCsvDecoder0.java
+ - classes - The sources are compiled in this directory, ready for subsequent executions
+ - resources - Description of the generated process graph for rendering and non class resources required at runtime
+    - An [image](RoomSensorSEP.png) describing the processing graph 
+    - A graphml that can be interactively explored with a [netbeans plugin](http://plugins.netbeans.org/plugin/75197/fluxtion-graphml)
+    - Any user lambdas used in the processor are serialised for loading in the generated processor
 
 
