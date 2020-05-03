@@ -182,7 +182,11 @@ SMS:0800-1-HELP-ROOMTEMP investigate:[living]
 ```
 ### Cached compilation
 The application generates a solution in the cache directory fluxtion, set with 
-system property: **-Dfluxtion.cacheDirectory=fluxtion**. The fluxtion directory contains three sub-directories:
+system property: 
+
+**-Dfluxtion.cacheDirectory=fluxtion**
+
+The fluxtion directory contains three sub-directories:
  - classes - compiled classes implementing the stream processing requirements
  - resources - meta-data describing the processor
  - sources - The java source files used to generate the classes 
@@ -204,5 +208,4 @@ A fuller description is in the wiki here.
     - An [image](RoomSensorSEP.png) describing the processing graph 
     - A graphml that can be interactively explored with a [netbeans plugin](http://plugins.netbeans.org/plugin/75197/fluxtion-graphml)
     - Any user lambdas used in the processor are serialised for loading in the generated processor
-
 
