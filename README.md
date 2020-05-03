@@ -42,6 +42,13 @@ SensorMonitor::buildSensorProcessor);
  The two string parameters are used as the fully qualified name of the generated stream processing class. 
 The call to reuseOrBuild checks the classpath for a class that matches the fully qualified name. 
 If no class can be loaded for that fqn, then a new stream processor is generated. 
+### Processing events
+Once built the application can send events to the generated [StaticEventProcessor]([https://github.com/v12technology/fluxtion/blob/2.5.1/api/src/main/java/com/fluxtion/api/StaticEventProcessor.java](https://github.com/v12technology/fluxtion/blob/2.5.1/api/src/main/java/com/fluxtion/api/StaticEventProcessor.java)) using the onEvent method. An excerpt of sending events in the main method:
+```java
+        processor.onEvent("0800-1-HELP-ROOMTEMP");
+        processor.onEvent(new SensorReading("living", 36));
+```
+The processor will dispatch events within the execution graph to meet the processing requirements.
 ### Defining the calculation
 The builder method constructs the processor with the following definition: 
 ```java
@@ -50,7 +57,8 @@ public static void buildSensorProcessor(SEPConfig cfg) {
     Wrapper<SensorReading> sensorData = merge(select(SensorReading.class),
             csvMarshaller(SensorReading.class).build()).console(" -> \t");
     //group by sensor and calculate max, average
-    GroupBy<SensorReadingDerived> sensors = groupBy(sensorData, SensorReading::getSensorName, SensorReadingDerived.class)
+    GroupBy<SensorReadingDerived> sensors = groupBy(sensorData, SensorReading::getSensorName, 
+             SensorReadingDerived.class)
             .init(SensorReading::getSensorName, SensorReadingDerived::setSensorName)
             .max(SensorReading::getValue, SensorReadingDerived::setMax)
             .avg(SensorReading::getValue, SensorReadingDerived::setAverage)
@@ -108,7 +116,7 @@ A user supplied controller instance is registered with the stream processor. Whe
 the list of rooms to investigate is > 0, the list is pushed to 
 the user controller class. 
 
-To register an SMS endpoint the controller class annotates a method as receiving
+To register an SMS endpoint the controller class annotates a method to receive
 a String as an event. The processor will route any String to the controller class 
 method.
  ```java
@@ -196,5 +204,4 @@ A fuller description is in the wiki here.
     - An [image](RoomSensorSEP.png) describing the processing graph 
     - A graphml that can be interactively explored with a [netbeans plugin](http://plugins.netbeans.org/plugin/75197/fluxtion-graphml)
     - Any user lambdas used in the processor are serialised for loading in the generated processor
-
 
