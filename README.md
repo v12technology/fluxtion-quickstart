@@ -17,6 +17,47 @@ will send an SMS alert when notified, if a number has been registered.
  - Register an SMS endpoint with the controller by sending a String as an event into the processor
  - The SMS number can be updated in realtime
 
+## Running the application
+Clone the application and execute the sensorquickstart.jar in the dist directory. 
+The application processes the file [temperatureData.csv](https://github.com/v12technology/fluxtion-quickstart/blob/1.0.0/temperatureData.csv) 
+as an input in place of real sensor source. 
+The last three records trigger an alert condition. No SMS endoint is registered so the controller is unable to send a message.
+
+After reading the csv file SensorReading events are programatically sent to the processor, 
+to register an SMS number and create an alert condition. In this case the 
+controller can now send an SMS message. 
+```bat
+git clone https://github.com/v12technology/fluxtion-quickstart.git
+cd fluxtion-quickstart
+java  -Dfluxtion.cacheDirectory=fluxtion -jar dist\sensorquickstart.jar
+21:40:45.991 [main] INFO  c.f.generator.compiler.SepCompiler - generated sep: C:\quickstart\fluxtion\source\com\fluxtion\quickstart\roomsensor\generated\RoomSensorSEP.java
+ ->     bathroom:45
+ ->     living:78
+ ->     bed:43
+readings in window : [(bathroom  max:45 average:45.0), (living  max:78 average:78.0), (bed  max:43 average:43.0)]
+ ->     bed:23
+ ->     bathroom:19
+ ->     bed:34
+readings in window : [(bed  max:34 average:28.5), (bathroom  max:19 average:19.0)]
+ ->     living:89
+ ->     bed:23
+ ->     living:44
+readings in window : [(living  max:89 average:66.5), (bed  max:23 average:23.0)]
+ ->     living:36
+ ->     living:99
+ ->     living:56
+readings in window : [(living  max:99 average:63.666666666666664)]
+**** WARNING **** sensors to investigate:[living]
+NO SMS details registered, controller impotent
+Temp controller registering sms details:0800-1-HELP-ROOMTEMP
+ ->     living:36
+ ->     living:99
+ ->     living:56
+readings in window : [(living  max:99 average:63.666666666666664)]
+**** WARNING **** sensors to investigate:[living]
+SMS:0800-1-HELP-ROOMTEMP investigate:[living]
+```
+
 ## Solution description
 ### Dependencies
 Maven:
@@ -140,46 +181,7 @@ public static class TempertureController {
 }
 ```
 
-## Running the application
-Clone the application and execute the sensorquickstart.jar in the dist directory. 
-The application processes the file [temperatureData.csv](https://github.com/v12technology/fluxtion-quickstart/blob/1.0.0/temperatureData.csv) 
-as an input in place of real sensor source. 
-The last three records trigger an alert condition. No SMS endoint is registered so the controller is unable to send a message.
 
-After reading the csv file SensorReading events are programatically sent to the processor, 
-to register an SMS number and create an alert condition. In this case the 
-controller can now send an SMS message. 
-```bat
-git clone https://github.com/v12technology/fluxtion-quickstart.git
-cd fluxtion-quickstart
-java  -Dfluxtion.cacheDirectory=fluxtion -jar dist\sensorquickstart.jar
-21:40:45.991 [main] INFO  c.f.generator.compiler.SepCompiler - generated sep: C:\quickstart\fluxtion\source\com\fluxtion\quickstart\roomsensor\generated\RoomSensorSEP.java
- ->     bathroom:45
- ->     living:78
- ->     bed:43
-readings in window : [(bathroom  max:45 average:45.0), (living  max:78 average:78.0), (bed  max:43 average:43.0)]
- ->     bed:23
- ->     bathroom:19
- ->     bed:34
-readings in window : [(bed  max:34 average:28.5), (bathroom  max:19 average:19.0)]
- ->     living:89
- ->     bed:23
- ->     living:44
-readings in window : [(living  max:89 average:66.5), (bed  max:23 average:23.0)]
- ->     living:36
- ->     living:99
- ->     living:56
-readings in window : [(living  max:99 average:63.666666666666664)]
-**** WARNING **** sensors to investigate:[living]
-NO SMS details registered, controller impotent
-Temp controller registering sms details:0800-1-HELP-ROOMTEMP
- ->     living:36
- ->     living:99
- ->     living:56
-readings in window : [(living  max:99 average:63.666666666666664)]
-**** WARNING **** sensors to investigate:[living]
-SMS:0800-1-HELP-ROOMTEMP investigate:[living]
-```
 ### Cached compilation
 The application generates a solution in the cache directory fluxtion, set with 
 system property: 
