@@ -15,8 +15,8 @@ notify a user class when a room breaches set temperature criteria.
 	 - A user class(TempertureController) will attempt to send an SMS listing rooms to investigate
  - Register an SMS endpoint with the controller by sending a String as an event into the processor
 
-## Code description
-The application depends upon the fluxtion-text-builder library. \
+## Solution description
+### Dependencies
 Maven:
 ```xml
     <dependency>
@@ -29,6 +29,7 @@ Groovy:
 ```groovy
 implementation 'com.fluxtion.extension:fluxtion-text-builder:2.5.1'
 ```
+### Building the event processor
 The [SensorMonitor](src/main/java/com/fluxtion/quickstart/roomsensor/SensorMonitor.java) 
 builds a streaming processing engine in the main method using the [reuseOrBuild](https://github.com/v12technology/fluxtion/blob/a15f9bc6e28ed7071be16795d6813724454b8f11/generator/src/main/java/com/fluxtion/generator/compiler/InprocessSepCompiler.java#L158) function. A  method reference is passed to the builder to reduce code noise.
 
@@ -36,10 +37,11 @@ builds a streaming processing engine in the main method using the [reuseOrBuild]
 StaticEventProcessor processor = reuseOrBuild("RoomSensorSEP", "com.fluxtion.quickstart.roomsensor.generated", 
 SensorMonitor::buildSensorProcessor);
 ```
- The two string parameters are used as the fully qualified name of the generated stream processing class. The call to reuseOrBuild checks the classpath for a class that matches the fully qualified name. If no class can be loaded for that fqn, then a new stream processor is generated. 
-
+ The two string parameters are used as the fully qualified name of the generated stream processing class. 
+The call to reuseOrBuild checks the classpath for a class that matches the fully qualified name. 
+If no class can be loaded for that fqn, then a new stream processor is generated. 
+### Defining the calculation
 The builder method constructs the processor with the following definition: 
-
 ```java
 public static void buildSensorProcessor(SEPConfig cfg) {
     //merge csv marshller and SensorReading instance events
@@ -59,9 +61,8 @@ public static void buildSensorProcessor(SEPConfig cfg) {
             .push(new TempertureController()::investigateSensors);
 }
 ```
-
+### Integrated user classes 
 The builder refers to two helper instances that define the input and output datatypes:
-
 ```java
 @Data
 @AllArgsConstructor
@@ -90,11 +91,8 @@ public static class SensorReadingDerived {
     }
 }
 ```
-
 A user supplied mapping function converts the aggregated sensor data for all 
 rooms and creates a collection of room names that require investigation:
-
-
 ```java
 public static Collection<String> warningSensors(Collection<SensorReadingDerived> readings) {
     return readings.stream()
@@ -108,7 +106,6 @@ A user supplied controller instance is registered with the stream processor. Whe
 the list of rooms to investigate is > 0, the list is pushed by the processor to 
 the user controller class. The controller class also annotates a method as receiving
 a String as an event. The processor will route String events to the controller class
-
  ```java
 public static class TempertureController {
 
@@ -131,9 +128,13 @@ public static class TempertureController {
 ```
 
 ## Running the application
-Clone the application and execute the sensorquickstart.jar in the dist directory. The application will 
-process the file temperatureData.csv as an input. After completing reading the csv file 
-sensor reading events are programatically sent to the processor.
+Clone the application and execute the sensorquickstart.jar in the dist directory. 
+The application processes the file temperatureData.csv as an input in place of real sensor source. 
+An alert condition is met, but no SMS endoint is registered so the controller cannot send a message.
+
+After reading the csv file SensorReading events are programatically sent to the processor, 
+to register an SMS number and create an alert condition. In this case the 
+controller can now send an SMS message. 
 ```bat
 git clone https://github.com/v12technology/fluxtion-quickstart.git
 cd fluxrtion-quickstart
@@ -173,10 +174,8 @@ system property: -Dfluxtion.cacheDirectory=fluxtion. The fluxtion directory cont
  - sources - The java source files used to generate the classes 
 
 Executing the jar a second time sees a significant reduction in execution time as the 
-application uses the compiled processor from the first run. The cached class is loaded internally by the reuseOrBuild method. 
-This gives an almost instant response to the application.
+application uses the compiled processor from the first run. The cached classes are loaded internally by the reuseOrBuild method. Using the cached compiled classes gives an almost instant response to the event stream in the application.
 
 Deleting the cache directory will cause the regeneration and compilation of the solution. 
-
 
 
