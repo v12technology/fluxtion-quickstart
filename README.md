@@ -4,7 +4,7 @@ The goal is to read a sensor data stream for a set of rooms, calculate aggregate
 notify a user class when a room breaches set temperature criteria. The user class
 will send an SMS alert when notified, if a number has been registered. 
 
-## Requirements
+# Requirements
  - Read room sensor temperature as a stream of csv records or as instances of SensorReading events. 
  - Merge csv records and SensorReading instances into a single event stream for processing
  - The event stream can be infinite
@@ -17,7 +17,7 @@ will send an SMS alert when notified, if a number has been registered.
  - Register an SMS endpoint with the controller by sending a String as an event into the processor
  - The SMS number can be updated in realtime
 
-## Running the application
+# Running the application
 Clone the application and execute the sensorquickstart.jar in the dist directory. 
 The application processes the file [temperatureData.csv](https://github.com/v12technology/fluxtion-quickstart/blob/1.0.0/temperatureData.csv) 
 as an input in place of real sensor source. 
@@ -58,8 +58,8 @@ readings in window : [(living  max:99 average:63.666666666666664)]
 SMS:0800-1-HELP-ROOMTEMP investigate:[living]
 ```
 
-## Solution description
-### Dependencies
+# Solution description
+## Dependencies
 Maven:
 ```xml
     <dependency>
@@ -72,7 +72,7 @@ Groovy:
 ```groovy
 implementation 'com.fluxtion.extension:fluxtion-text-builder:2.5.1'
 ```
-### Building the event processor
+## Building the event processor
 The [SensorMonitor](src/main/java/com/fluxtion/quickstart/roomsensor/SensorMonitor.java) 
 builds a streaming processing engine in the main method using the [reuseOrBuild](https://github.com/v12technology/fluxtion/blob/a15f9bc6e28ed7071be16795d6813724454b8f11/generator/src/main/java/com/fluxtion/generator/compiler/InprocessSepCompiler.java#L158) function. A  method reference is passed to the builder to reduce code noise.
 
@@ -83,14 +83,14 @@ SensorMonitor::buildSensorProcessor);
  The two string parameters are used as the fully qualified name of the generated stream processing class. 
 The call to reuseOrBuild checks the classpath for a class that matches the fully qualified name. 
 If no class can be loaded for that fqn, then a new stream processor is generated. 
-### Processing events
+## Processing events
 Once built the application can send events to the generated [StaticEventProcessor]([https://github.com/v12technology/fluxtion/blob/2.5.1/api/src/main/java/com/fluxtion/api/StaticEventProcessor.java](https://github.com/v12technology/fluxtion/blob/2.5.1/api/src/main/java/com/fluxtion/api/StaticEventProcessor.java)) using the onEvent method. An excerpt of sending events in the main method:
 ```java
         processor.onEvent("0800-1-HELP-ROOMTEMP");
         processor.onEvent(new SensorReading("living", 36));
 ```
 The processor will dispatch events within the execution graph to meet the processing requirements.
-### Defining the calculation
+## Defining the calculation
 The builder method constructs the processor with the following definition: 
 ```java
 public static void buildSensorProcessor(SEPConfig cfg) {
@@ -112,7 +112,7 @@ public static void buildSensorProcessor(SEPConfig cfg) {
             .push(new TempertureController()::investigateSensors);
 }
 ```
-### Integrated user classes 
+## Integrated user classes 
 The builder refers to two helper instances that define the input and output datatypes:
 ```java
 @Data
@@ -180,9 +180,7 @@ public static class TempertureController {
     }
 }
 ```
-
-
-### Cached compilation
+## Cached compilation
 The application generates a solution in a cache directory, set with 
 system property fluxtion.cacheDirectory, example: 
 
@@ -200,7 +198,7 @@ gives an almost instant response to the event stream in the application.
 
 Deleting the cache directory will cause the regeneration and compilation of the solution. 
 
-### Generated files
+## Generated files
 A fuller description is in the wiki here. 
  - source - A CSV marshaller and stream processing solution are generated here. 
     - The main entry point to the stream processor is RoomSensorSEP.java
