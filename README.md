@@ -6,7 +6,7 @@ will send an SMS alert when notified, if a number has been registered.
 
 To get benefit out of this tutorial you should have:
 
- - A passing understanding of [stream processing]([https://dzone.com/articles/what-is-stream-processing-a-gentle-introduction](https://dzone.com/articles/what-is-stream-processing-a-gentle-introduction))
+ - A passing understanding of [stream processing](https://dzone.com/articles/what-is-stream-processing-a-gentle-introduction)
  - Intermediate Java coding skills combined with basic knowledge of git and maven
 
 # Requirements
