@@ -45,14 +45,16 @@ import lombok.NoArgsConstructor;
  * SensorReading events
  * <li>For each room calculate the max and average temperature individually
  * <li>Run a tumbling window, zeroing all room values every 3 readings
- * <li>Register a user class as an instance in the processor to act as a controller
+ * <li>Register a user class as an instance in the processor to act as a
+ * controller
  * <li>If a room has an average of > 60 and max of >90 then:
  * <ul>
  * <li>log a warning
  * <li>A user class(TempertureController) will send an SMS of rooms to
  * investigate if an SMS number is registered
  * </ul>
- * <li>Register an SMS endpoint with ith the controller by sending a String as an event
+ * <li>Register an SMS endpoint with ith the controller by sending a String as
+ * an event
  * </ul>
  * <p>
  *
@@ -61,7 +63,8 @@ import lombok.NoArgsConstructor;
  * <li>Processing an infinite stream of herogeneous event types
  * <li>Type safe construction using method references
  * <li>Auto generation of CSV marshaller
- * <li>Merging events of the same type from different source into a single stream
+ * <li>Merging events of the same type from different source into a single
+ * stream
  * <li>Handling heterogeneous event types, each with their own execution path
  * <li>GroupBy calculating derived data
  * <li>Tumbling windows operating on Grouped data, resetting state based on
@@ -81,17 +84,21 @@ import lombok.NoArgsConstructor;
  * </ul>
  *
  * For the first run Fluxtion generates the static event processor in:
- * [project_roo]\target\generated-sources\fluxtion, subsequent runs will use
- * the cached processor. An image representing the processing graph can be found
- * in the [project_roo]\src\main\resources\com\fluxtion\quickstart\roomsensor\generated folder
- * 
+ * [project_roo]\target\generated-sources\fluxtion, subsequent runs will use the
+ * cached processor. An image representing the processing graph can be found in
+ * the
+ * [project_roo]\src\main\resources\com\fluxtion\quickstart\roomsensor\generated
+ * folder
+ *
  *
  * @author Greg Higgins greg.higgins@v12technology.com
  */
 public class SensorMonitor {
 
     public static void main(String[] args) throws Exception {
-        StaticEventProcessor processor = reuseOrBuild("RoomSensorSEP", "com.fluxtion.quickstart.roomsensor.generated", SensorMonitor::buildSensorProcessor);
+        StaticEventProcessor processor = reuseOrBuild("RoomSensorSEP",
+                "com.fluxtion.quickstart.roomsensor.generated",
+                SensorMonitor::buildSensorProcessor);
         CharStreamer.stream(new File("temperatureData.csv"), processor).sync().stream();
         processor.onEvent("0800-1-HELP-ROOMTEMP");
         processor.onEvent(new SensorReading("living", 36));
@@ -105,7 +112,8 @@ public class SensorMonitor {
         Wrapper<SensorReading> sensorData = merge(select(SensorReading.class),
                 csvMarshaller(SensorReading.class).build()).console(" -> \t");
         //group by sensor and calculate max, average
-        GroupBy<SensorReadingDerived> sensors = groupBy(sensorData, SensorReading::getSensorName, SensorReadingDerived.class)
+        GroupBy<SensorReadingDerived> sensors = groupBy(sensorData, SensorReading::getSensorName,
+                SensorReadingDerived.class)
                 .init(SensorReading::getSensorName, SensorReadingDerived::setSensorName)
                 .max(SensorReading::getValue, SensorReadingDerived::setMax)
                 .avg(SensorReading::getValue, SensorReadingDerived::setAverage)
