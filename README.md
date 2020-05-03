@@ -183,8 +183,8 @@ public static class TempertureController {
 
 
 ### Cached compilation
-The application generates a solution in the cache directory fluxtion, set with 
-system property: 
+The application generates a solution in a cache directory, set with 
+system property fluxtion.cacheDirectory, example: 
 
 **-Dfluxtion.cacheDirectory=fluxtion**
 
@@ -207,7 +207,7 @@ A fuller description is in the wiki here.
     - The CVS marshaller is SensorReadingCsvDecoder0.java
  - classes - The sources are compiled in this directory, ready for subsequent executions
  - resources - Description of the generated process graph for rendering and non class resources required at runtime
-    - An [image](RoomSensorSEP.png) describing the processing graph 
-    - A graphml that can be interactively explored with a [netbeans plugin](http://plugins.netbeans.org/plugin/75197/fluxtion-graphml)
+    - An [image](https://github.com/v12technology/fluxtion-quickstart/blob/1.0.0/src/main/resources/com/fluxtion/quickstart/roomsensor/generated/RoomSensorSEP.png) describing the processing graph 
+    - A [graphml](https://github.com/v12technology/fluxtion-quickstart/blob/1.0.0/src/main/resources/com/fluxtion/quickstart/roomsensor/generated/RoomSensorSEP.graphml) that can be interactively explored with a [netbeans plugin](http://plugins.netbeans.org/plugin/75197/fluxtion-graphml)
     - Any user lambdas used in the processor are serialised for loading in the generated processor
 
