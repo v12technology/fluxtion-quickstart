@@ -1,11 +1,11 @@
 # Introduction
-5 Minute tutorial to demonstrate processing of streaming data using Fluxtion. 
+5 Minute tutorial to demonstrate stream data processing using Fluxtion. 
 The goal is to read sensor data for a set of rooms, calculate aggregate values per room and 
 notify a user class when a room breaches set temperature criteria.
 
 ## Requirements
- - Read room sensor temperature as a csv character stream or as instances of SensorReading events. 
- - Merge csv and SensorReading's into a single event stream for processing
+ - Read room sensor temperature as a csv records or as instances of SensorReading events. 
+ - Merge csv records and SensorReading instances into a single event stream for processing
  - The event stream can be infinite
  - For each room calculate the max and average temperature
  - Run a tumbling window, zeroing all room values every 3 readings
@@ -16,9 +16,8 @@ notify a user class when a room breaches set temperature criteria.
  - Register an SMS endpoint with the controller by sending a String as an event into the processor
 
 ## Code description
-The application depeneds upon the fluxtion-text-builder library. This brings in all
-the dependencies required for fluxtion. The maven dependency is:
-
+The application depends upon the fluxtion-text-builder library. 
+Maven:
 ```xml
     <dependency>
         <groupId>com.fluxtion.extension</groupId>
@@ -26,7 +25,10 @@ the dependencies required for fluxtion. The maven dependency is:
         <version>2.5.1</version>
     </dependency>
 ```
-
+Groovy:
+```groovy
+implementation 'com.fluxtion.extension:fluxtion-text-builder:2.5.1'
+```
 The [SensorMonitor](src/main/java/com/fluxtion/quickstart/roomsensor/SensorMonitor.java) 
 builds a streaming processing engine in the main, referring to a builder using a method reference.
  The two string parameters are used as the fully qualified name of the generated stream processing class.
@@ -178,6 +180,4 @@ application uses the compiled processor from the first run. The cached class is 
 This gives an almost instant response to the application.
 
 Deleting the cache directory will cause the regeneration and compilation of the solution. 
-
-
 
