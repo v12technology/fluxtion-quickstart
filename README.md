@@ -16,7 +16,7 @@ notify a user class when a room breaches set temperature criteria.
  - Register an SMS endpoint with the controller by sending a String as an event into the processor
 
 ## Code description
-The application depends upon the fluxtion-text-builder library. 
+The application depends upon the fluxtion-text-builder library. \
 Maven:
 ```xml
     <dependency>
@@ -30,16 +30,13 @@ Groovy:
 implementation 'com.fluxtion.extension:fluxtion-text-builder:2.5.1'
 ```
 The [SensorMonitor](src/main/java/com/fluxtion/quickstart/roomsensor/SensorMonitor.java) 
-builds a streaming processing engine in the main, referring to a builder using a method reference.
- The two string parameters are used as the fully qualified name of the generated stream processing class.
-The call to reuseOrBuild checks the classpath for a class that matches the fully qualified name. If no 
-class can be loaded for that fqn, then a new stream processor is generated.
+builds a streaming processing engine in the main method using the [reuseOrBuild](https://github.com/v12technology/fluxtion/blob/a15f9bc6e28ed7071be16795d6813724454b8f11/generator/src/main/java/com/fluxtion/generator/compiler/InprocessSepCompiler.java#L158) function. A  method reference is passed to the builder to reduce code noise.
 
 ```java
 StaticEventProcessor processor = reuseOrBuild("RoomSensorSEP", "com.fluxtion.quickstart.roomsensor.generated", 
 SensorMonitor::buildSensorProcessor);
-
 ```
+ The two string parameters are used as the fully qualified name of the generated stream processing class. The call to reuseOrBuild checks the classpath for a class that matches the fully qualified name. If no class can be loaded for that fqn, then a new stream processor is generated. 
 
 The builder method constructs the processor with the following definition: 
 
@@ -180,4 +177,6 @@ application uses the compiled processor from the first run. The cached class is 
 This gives an almost instant response to the application.
 
 Deleting the cache directory will cause the regeneration and compilation of the solution. 
+
+
 
