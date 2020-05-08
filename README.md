@@ -22,6 +22,9 @@ To get benefit out of this tutorial you should have:
  - Register an SMS endpoint with the controller by sending a String as an event into the processor
  - The SMS number can be updated in realtime
 
+
+![processing imsge](QuickStartOverview.png)
+
 # Running the application
 Clone the application and execute the sensorquickstart.jar in the dist directory. 
 The application processes the file [temperatureData.csv](https://github.com/v12technology/fluxtion-quickstart/blob/1.0.0/temperatureData.csv) 
