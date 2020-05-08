@@ -23,7 +23,7 @@ To get benefit out of this tutorial you should have:
  - The SMS number can be updated in realtime
 
 
-![processing imsge](QuickStartOverview.png)
+![processing imsge](QuickStartDiagram.png)
 
 # Running the application
 Clone the application and execute the sensorquickstart.jar in the dist directory. 
