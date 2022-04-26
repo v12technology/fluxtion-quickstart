@@ -8,18 +8,21 @@ import lombok.Data;
 public class ProfitAndLossTrader {
 
     private int assetPosition;
+    private boolean canHedge = true;
 
     @OnEventHandler
-    public void processTrade(Trade trade){
-        System.out.println("processing trade ...." + trade);
+    public void orderDone(OrderDone trade){
+        System.out.println("-----------------------------------\nHedge order complete");
+        canHedge = true;
     }
 
     public void pnlBreach(double pnl){
-        System.out.println("pnl breach - send a trade to clear position:" + assetPosition);
+        if(canHedge) {
+            System.out.println("HEDGE pnl breach " + pnl + " - send a trade to clear position:" + assetPosition);
+            canHedge = false;
+        }else {
+            System.out.println("NO HEDGE pnl breach " + pnl + " - live order still not done");
+        }
     }
 
-    @OnTrigger
-    public void checkPositionHedgeRequired(){
-        System.out.println("checking if hedge trade required ....");
-    }
 }

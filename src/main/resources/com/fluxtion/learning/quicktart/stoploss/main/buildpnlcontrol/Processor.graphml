@@ -38,11 +38,11 @@
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="peekEventStream_4">
+        <node id="peekEventStream_3">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="peekEventStream_4:&#10;PeekEventStream"/>
+                    <jGraph:label text="peekEventStream_3:&#10;PeekEventStream"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
@@ -56,263 +56,254 @@
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="templateMessage_3">
+        <node id="filterEventStream_4">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="templateMessage_3:&#10;TemplateMessage"/>
+                    <jGraph:label text="filterEventStream_4:&#10;FilterEventStream"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="filterEventStream_5">
+        <node id="mapRef2ToDoubleEventStream_5">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="filterEventStream_5:&#10;FilterEventStream"/>
+                    <jGraph:label text="mapRef2ToDoubleEventStream_5:&#10;MapRef2ToDoubleEventStream"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="mapRef2ToDoubleEventStream_6">
+        <node id="mapDouble2ToDoubleEventStream_7">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="mapRef2ToDoubleEventStream_6:&#10;MapRef2ToDoubleEventStream"/>
+                    <jGraph:label text="mapDouble2ToDoubleEventStream_7:&#10;MapDouble2ToDoubleEventStream"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="mapDouble2ToDoubleEventStream_8">
+        <node id="defaultDouble_6">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="mapDouble2ToDoubleEventStream_8:&#10;MapDouble2ToDoubleEventStream"/>
+                    <jGraph:label text="defaultDouble_6:&#10;DefaultDouble"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="defaultDouble_7">
+        <node id="mapRef2ToIntEventStream_8">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="defaultDouble_7:&#10;DefaultDouble"/>
+                    <jGraph:label text="mapRef2ToIntEventStream_8:&#10;MapRef2ToIntEventStream"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="mapRef2ToIntEventStream_9">
+        <node id="mapInt2ToIntEventStream_10">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="mapRef2ToIntEventStream_9:&#10;MapRef2ToIntEventStream"/>
+                    <jGraph:label text="mapInt2ToIntEventStream_10:&#10;MapInt2ToIntEventStream"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="mapInt2ToIntEventStream_11">
+        <node id="sumInt_9">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="mapInt2ToIntEventStream_11:&#10;MapInt2ToIntEventStream"/>
+                    <jGraph:label text="sumInt_9:&#10;SumInt"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="sumInt_10">
+        <node id="intPushEventStream_12">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="sumInt_10:&#10;SumInt"/>
+                    <jGraph:label text="intPushEventStream_12:&#10;IntPushEventStream"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="intPushEventStream_13">
+        <node id="profitAndLossTrader_11">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="intPushEventStream_13:&#10;IntPushEventStream"/>
-                    <jGraph:Style properties="NODE"/>
-                </jGraph:ShapeNode>
-            </data>
-        </node>
-        <node id="profitAndLossTrader_12">
-            <data key="vertex_label">
-                <jGraph:ShapeNode>
-                    <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="&lt;&lt;EventHandle&gt;&gt;&#10;profitAndLossTrader_12:&#10;ProfitAndLossTrader"/>
+                    <jGraph:label text="&lt;&lt;EventHandle&gt;&gt;&#10;profitAndLossTrader_11:&#10;ProfitAndLossTrader"/>
                     <jGraph:Style properties="EVENTHANDLER"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="intPeekEventStream_15">
+        <node id="intPeekEventStream_14">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="intPeekEventStream_15:&#10;IntPeekEventStream"/>
+                    <jGraph:label text="intPeekEventStream_14:&#10;IntPeekEventStream"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="templateMessage_14">
+        <node id="templateMessage_13">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="templateMessage_14:&#10;TemplateMessage"/>
+                    <jGraph:label text="templateMessage_13:&#10;TemplateMessage"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="mapInt2ToDoubleEventStream_16">
+        <node id="mapInt2ToDoubleEventStream_15">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="mapInt2ToDoubleEventStream_16:&#10;MapInt2ToDoubleEventStream"/>
+                    <jGraph:label text="mapInt2ToDoubleEventStream_15:&#10;MapInt2ToDoubleEventStream"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="binaryMapToDoubleEventStream_17">
+        <node id="binaryMapToDoubleEventStream_16">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="binaryMapToDoubleEventStream_17:&#10;BinaryMapToDoubleEventStream"/>
+                    <jGraph:label text="binaryMapToDoubleEventStream_16:&#10;BinaryMapToDoubleEventStream"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="doublePeekEventStream_19">
+        <node id="doublePeekEventStream_18">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="doublePeekEventStream_19:&#10;DoublePeekEventStream"/>
+                    <jGraph:label text="doublePeekEventStream_18:&#10;DoublePeekEventStream"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="templateMessage_18">
+        <node id="templateMessage_17">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="templateMessage_18:&#10;TemplateMessage"/>
+                    <jGraph:label text="templateMessage_17:&#10;TemplateMessage"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="mapRef2ToDoubleEventStream_20">
+        <node id="mapRef2ToDoubleEventStream_19">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="mapRef2ToDoubleEventStream_20:&#10;MapRef2ToDoubleEventStream"/>
+                    <jGraph:label text="mapRef2ToDoubleEventStream_19:&#10;MapRef2ToDoubleEventStream"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="mapDouble2ToDoubleEventStream_21">
+        <node id="mapDouble2ToDoubleEventStream_20">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="mapDouble2ToDoubleEventStream_21:&#10;MapDouble2ToDoubleEventStream"/>
+                    <jGraph:label text="mapDouble2ToDoubleEventStream_20:&#10;MapDouble2ToDoubleEventStream"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="mapRef2ToDoubleEventStream_22">
+        <node id="mapRef2ToDoubleEventStream_21">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="mapRef2ToDoubleEventStream_22:&#10;MapRef2ToDoubleEventStream"/>
+                    <jGraph:label text="mapRef2ToDoubleEventStream_21:&#10;MapRef2ToDoubleEventStream"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="binaryMapToDoubleEventStream_23">
+        <node id="binaryMapToDoubleEventStream_22">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="binaryMapToDoubleEventStream_23:&#10;BinaryMapToDoubleEventStream"/>
+                    <jGraph:label text="binaryMapToDoubleEventStream_22:&#10;BinaryMapToDoubleEventStream"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="mapDouble2ToDoubleEventStream_25">
+        <node id="mapDouble2ToDoubleEventStream_24">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="mapDouble2ToDoubleEventStream_25:&#10;MapDouble2ToDoubleEventStream"/>
+                    <jGraph:label text="mapDouble2ToDoubleEventStream_24:&#10;MapDouble2ToDoubleEventStream"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="sumDouble_24">
+        <node id="sumDouble_23">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="sumDouble_24:&#10;SumDouble"/>
+                    <jGraph:label text="sumDouble_23:&#10;SumDouble"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="doublePeekEventStream_27">
+        <node id="doublePeekEventStream_26">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="doublePeekEventStream_27:&#10;DoublePeekEventStream"/>
+                    <jGraph:label text="doublePeekEventStream_26:&#10;DoublePeekEventStream"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="templateMessage_26">
+        <node id="templateMessage_25">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="templateMessage_26:&#10;TemplateMessage"/>
+                    <jGraph:label text="templateMessage_25:&#10;TemplateMessage"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="binaryMapToDoubleEventStream_28">
+        <node id="binaryMapToDoubleEventStream_27">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="binaryMapToDoubleEventStream_28:&#10;BinaryMapToDoubleEventStream"/>
+                    <jGraph:label text="binaryMapToDoubleEventStream_27:&#10;BinaryMapToDoubleEventStream"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="doublePeekEventStream_30">
+        <node id="doublePeekEventStream_29">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="doublePeekEventStream_30:&#10;DoublePeekEventStream"/>
+                    <jGraph:label text="doublePeekEventStream_29:&#10;DoublePeekEventStream"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="templateMessage_29">
+        <node id="templateMessage_28">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="templateMessage_29:&#10;TemplateMessage"/>
+                    <jGraph:label text="templateMessage_28:&#10;TemplateMessage"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="doubleFilterEventStream_31">
+        <node id="doubleFilterEventStream_30">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="doubleFilterEventStream_31:&#10;DoubleFilterEventStream"/>
+                    <jGraph:label text="doubleFilterEventStream_30:&#10;DoubleFilterEventStream"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="doublePushEventStream_32">
+        <node id="doublePushEventStream_31">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="doublePushEventStream_32:&#10;DoublePushEventStream"/>
+                    <jGraph:label text="doublePushEventStream_31:&#10;DoublePushEventStream"/>
                     <jGraph:Style properties="NODE"/>
                 </jGraph:ShapeNode>
             </data>
@@ -335,6 +326,15 @@
                 </jGraph:ShapeNode>
             </data>
         </node>
+        <node id="OrderDone">
+            <data key="vertex_label">
+                <jGraph:ShapeNode>
+                    <jGraph:Geometry height="70" width="160" x="20" y="20"/>
+                    <jGraph:label text="&lt;&lt;Event&gt;&gt;&#10;OrderDone"/>
+                    <jGraph:Style properties="EVENT"/>
+                </jGraph:ShapeNode>
+            </data>
+        </node>
         <edge id="1" source="handlerTrade" target="peekEventStream_1">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
@@ -350,172 +350,172 @@
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="4" source="handlerPriceUpdate" target="peekEventStream_4">
+        <edge id="4" source="handlerPriceUpdate" target="peekEventStream_3">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="5" source="templateMessage_3" target="peekEventStream_4">
+        <edge id="5" source="templateMessage_0" target="peekEventStream_3">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="6" source="peekEventStream_4" target="filterEventStream_5">
+        <edge id="6" source="peekEventStream_3" target="filterEventStream_4">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="7" source="filterEventStream_5" target="mapRef2ToDoubleEventStream_6">
+        <edge id="7" source="filterEventStream_4" target="mapRef2ToDoubleEventStream_5">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="8" source="defaultDouble_7" target="mapDouble2ToDoubleEventStream_8">
+        <edge id="8" source="defaultDouble_6" target="mapDouble2ToDoubleEventStream_7">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="9" source="mapRef2ToDoubleEventStream_6" target="mapDouble2ToDoubleEventStream_8">
+        <edge id="9" source="mapRef2ToDoubleEventStream_5" target="mapDouble2ToDoubleEventStream_7">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="10" source="filterEventStream_2" target="mapRef2ToIntEventStream_9">
+        <edge id="10" source="filterEventStream_2" target="mapRef2ToIntEventStream_8">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="11" source="sumInt_10" target="mapInt2ToIntEventStream_11">
+        <edge id="11" source="sumInt_9" target="mapInt2ToIntEventStream_10">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="12" source="mapRef2ToIntEventStream_9" target="mapInt2ToIntEventStream_11">
+        <edge id="12" source="mapRef2ToIntEventStream_8" target="mapInt2ToIntEventStream_10">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="13" source="intPushEventStream_13" target="profitAndLossTrader_12">
+        <edge id="13" source="intPushEventStream_12" target="profitAndLossTrader_11">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="14" source="mapInt2ToIntEventStream_11" target="intPushEventStream_13">
+        <edge id="14" source="mapInt2ToIntEventStream_10" target="intPushEventStream_12">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="15" source="intPushEventStream_13" target="intPeekEventStream_15">
+        <edge id="15" source="intPushEventStream_12" target="intPeekEventStream_14">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="16" source="templateMessage_14" target="intPeekEventStream_15">
+        <edge id="16" source="templateMessage_13" target="intPeekEventStream_14">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="17" source="intPeekEventStream_15" target="mapInt2ToDoubleEventStream_16">
+        <edge id="17" source="intPeekEventStream_14" target="mapInt2ToDoubleEventStream_15">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="18" source="mapDouble2ToDoubleEventStream_8" target="binaryMapToDoubleEventStream_17">
+        <edge id="18" source="mapDouble2ToDoubleEventStream_7" target="binaryMapToDoubleEventStream_16">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="19" source="mapInt2ToDoubleEventStream_16" target="binaryMapToDoubleEventStream_17">
+        <edge id="19" source="mapInt2ToDoubleEventStream_15" target="binaryMapToDoubleEventStream_16">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="20" source="binaryMapToDoubleEventStream_17" target="doublePeekEventStream_19">
+        <edge id="20" source="binaryMapToDoubleEventStream_16" target="doublePeekEventStream_18">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="21" source="templateMessage_18" target="doublePeekEventStream_19">
+        <edge id="21" source="templateMessage_17" target="doublePeekEventStream_18">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="22" source="filterEventStream_2" target="mapRef2ToDoubleEventStream_20">
+        <edge id="22" source="filterEventStream_2" target="mapRef2ToDoubleEventStream_19">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="23" source="mapRef2ToDoubleEventStream_20" target="mapDouble2ToDoubleEventStream_21">
+        <edge id="23" source="mapRef2ToDoubleEventStream_19" target="mapDouble2ToDoubleEventStream_20">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="24" source="filterEventStream_2" target="mapRef2ToDoubleEventStream_22">
+        <edge id="24" source="filterEventStream_2" target="mapRef2ToDoubleEventStream_21">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="25" source="mapRef2ToDoubleEventStream_22" target="binaryMapToDoubleEventStream_23">
+        <edge id="25" source="mapRef2ToDoubleEventStream_21" target="binaryMapToDoubleEventStream_22">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="26" source="mapDouble2ToDoubleEventStream_21" target="binaryMapToDoubleEventStream_23">
+        <edge id="26" source="mapDouble2ToDoubleEventStream_20" target="binaryMapToDoubleEventStream_22">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="27" source="sumDouble_24" target="mapDouble2ToDoubleEventStream_25">
+        <edge id="27" source="sumDouble_23" target="mapDouble2ToDoubleEventStream_24">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="28" source="binaryMapToDoubleEventStream_23" target="mapDouble2ToDoubleEventStream_25">
+        <edge id="28" source="binaryMapToDoubleEventStream_22" target="mapDouble2ToDoubleEventStream_24">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="29" source="mapDouble2ToDoubleEventStream_25" target="doublePeekEventStream_27">
+        <edge id="29" source="mapDouble2ToDoubleEventStream_24" target="doublePeekEventStream_26">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="30" source="templateMessage_26" target="doublePeekEventStream_27">
+        <edge id="30" source="templateMessage_25" target="doublePeekEventStream_26">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="31" source="doublePeekEventStream_19" target="binaryMapToDoubleEventStream_28">
+        <edge id="31" source="doublePeekEventStream_18" target="binaryMapToDoubleEventStream_27">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="32" source="doublePeekEventStream_27" target="binaryMapToDoubleEventStream_28">
+        <edge id="32" source="doublePeekEventStream_26" target="binaryMapToDoubleEventStream_27">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="33" source="binaryMapToDoubleEventStream_28" target="doublePeekEventStream_30">
+        <edge id="33" source="binaryMapToDoubleEventStream_27" target="doublePeekEventStream_29">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="34" source="templateMessage_29" target="doublePeekEventStream_30">
+        <edge id="34" source="templateMessage_28" target="doublePeekEventStream_29">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="35" source="doublePeekEventStream_30" target="doubleFilterEventStream_31">
+        <edge id="35" source="doublePeekEventStream_29" target="doubleFilterEventStream_30">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="36" source="doublePushEventStream_32" target="profitAndLossTrader_12">
+        <edge id="36" source="doublePushEventStream_31" target="profitAndLossTrader_11">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="37" source="doubleFilterEventStream_31" target="doublePushEventStream_32">
+        <edge id="37" source="doubleFilterEventStream_30" target="doublePushEventStream_31">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
@@ -530,7 +530,7 @@
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="40" source="Trade" target="profitAndLossTrader_12">
+        <edge id="40" source="OrderDone" target="profitAndLossTrader_11">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
