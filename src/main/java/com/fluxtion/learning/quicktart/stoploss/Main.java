@@ -23,12 +23,12 @@ import com.fluxtion.runtime.stream.helpers.Peekers;
  *
  * Incoming events processed:
  * <ul>
- *     <li>{@link Trade} </li>
- *     <li>{@link PriceUpdate}</li>
- *     <li>{@link OrderDone}</li>
+ *     <li>{@link TradeEvent} </li>
+ *     <li>{@link PriceUpdateEvent}</li>
+ *     <li>{@link OrderDoneEvent}</li>
  * </ul>
  *
- * Filters {@link Trade} amd {@link PriceUpdate} for {@link Instrument#getInstrument()} == "BTC"
+ * Filters {@link TradeEvent} amd {@link PriceUpdateEvent} for {@link InstrumentEvent#getInstrument()} == "BTC"
  * The graph maintains the state of several nodes that are updated with incoming events. The node calculations are
  * defined with the stream functional api. A user class, {@link ProfitAndLossTrader} is integrated in the graph and bound
  * to the outputs of a sub-set of stream nodes.
@@ -47,7 +47,7 @@ import com.fluxtion.runtime.stream.helpers.Peekers;
  * </ul>
  *
  * The Profit and loss trader will issue a hedge trade on a pnl breach. Only one hedge trade can be active in the market,
- * even if additional breaches are reached. When an {@link OrderDone} event is received by the ProfitAndLossTrader then
+ * even if additional breaches are reached. When an {@link OrderDoneEvent} event is received by the ProfitAndLossTrader then
  * additional hedging orders can be issued.
  */
 public class Main {
@@ -59,35 +59,35 @@ public class Main {
     }
 
     private static void sendData(EventProcessor processor){
-        processor.onEvent(new Trade("BTC", 100, 3));
-        processor.onEvent(new Trade("NOT-BTC", 100, 35_000));
-        processor.onEvent(new PriceUpdate("BTC", 2, 3.0));
-        processor.onEvent(new Trade("BTC", 200, 4));
-        processor.onEvent(new Trade("BTC", 30, 3.5));
-        processor.onEvent(new OrderDone());
-        processor.onEvent(new Trade("BTC", 30, 3.5));
-        processor.onEvent(new Trade("BTC", -300, 3));
-        processor.onEvent(new PriceUpdate("BTC", 1, 2.0));
-        processor.onEvent(new OrderDone());
-        processor.onEvent(new PriceUpdate("BTC", 5, 7.0));
-        processor.onEvent(new Trade("BTC", -60, 6));
+        processor.onEvent(new TradeEvent("BTC", 100, 3));
+        processor.onEvent(new TradeEvent("NOT-BTC", 100, 35_000));
+        processor.onEvent(new PriceUpdateEvent("BTC", 2, 3.0));
+        processor.onEvent(new TradeEvent("BTC", 200, 4));
+        processor.onEvent(new TradeEvent("BTC", 30, 3.5));
+        processor.onEvent(new OrderDoneEvent());
+        processor.onEvent(new TradeEvent("BTC", 30, 3.5));
+        processor.onEvent(new TradeEvent("BTC", -300, 3));
+        processor.onEvent(new PriceUpdateEvent("BTC", 1, 2.0));
+        processor.onEvent(new OrderDoneEvent());
+        processor.onEvent(new PriceUpdateEvent("BTC", 5, 7.0));
+        processor.onEvent(new TradeEvent("BTC", -60, 6));
     }
 
     private static void buildPnLControl(SEPConfig cfg){
         ProfitAndLossTrader pnlTrader = new ProfitAndLossTrader();
 
-        var btcTradeStream = EventFlow.subscribe(Trade.class)
+        var btcTradeStream = EventFlow.subscribe(TradeEvent.class)
                 .peek(Peekers.console("-----------------------------------\n{}"))
                 .filter(Main::filterBTCInstrument);
 
-        var btcMidPriceStream = EventFlow.subscribe(PriceUpdate.class)
+        var btcMidPriceStream = EventFlow.subscribe(PriceUpdateEvent.class)
                 .peek(Peekers.console("-----------------------------------\n{}"))
                 .filter(Main::filterBTCInstrument)
-                .mapToDouble(PriceUpdate::getMidPrice)
+                .mapToDouble(PriceUpdateEvent::getMidPrice)
                 .defaultValue(Double.NaN);
 
         var cumulativeTradedVolume = btcTradeStream
-                .mapToInt(Trade::getVolume)
+                .mapToInt(TradeEvent::getVolume)
                 .map(new Mappers.SumInt()::add)
                 .push(pnlTrader::setAssetPosition)
                 .peek(Peekers.console("BTC position:{}"));
@@ -99,9 +99,9 @@ public class Main {
 
         //calculate pnl and push to ProfitAndLossTrader if pnl limits are breached
         btcTradeStream
-                .mapToDouble(Trade::getVolume)
+                .mapToDouble(TradeEvent::getVolume)
                 .map(d -> d * -1)
-                .map(Mappers.MULTIPLY_DOUBLES, btcTradeStream.mapToDouble(Trade::getPrice))
+                .map(Mappers.MULTIPLY_DOUBLES, btcTradeStream.mapToDouble(TradeEvent::getPrice))
                 .map(new Mappers.SumDouble()::add)
                 .peek(Peekers.console("cash position:{}"))
                 .map(Mappers.ADD_DOUBLES, assetValue)
@@ -110,7 +110,7 @@ public class Main {
                 .push(pnlTrader::pnlBreach);
     }
 
-    public static Boolean filterBTCInstrument(Instrument trade) {
+    public static Boolean filterBTCInstrument(InstrumentEvent trade) {
         return trade.getInstrument().equals("BTC");
     }
 

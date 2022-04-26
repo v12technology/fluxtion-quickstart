@@ -1,4 +1,4 @@
 package com.fluxtion.learning.quicktart.stoploss;
 
-public class OrderDone {
+public class OrderDoneEvent {
 }

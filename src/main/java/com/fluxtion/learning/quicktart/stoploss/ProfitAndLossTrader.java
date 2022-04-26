@@ -1,7 +1,6 @@
 package com.fluxtion.learning.quicktart.stoploss;
 
 import com.fluxtion.runtime.annotations.OnEventHandler;
-import com.fluxtion.runtime.annotations.OnTrigger;
 import lombok.Data;
 
 @Data
@@ -11,7 +10,7 @@ public class ProfitAndLossTrader {
     private boolean canHedge = true;
 
     @OnEventHandler
-    public void orderDone(OrderDone trade){
+    public void orderDone(OrderDoneEvent trade){
         System.out.println("-----------------------------------\nHedge order complete");
         canHedge = true;
     }
