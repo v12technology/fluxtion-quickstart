@@ -18,10 +18,10 @@ To get benefit out of this tutorial you should have:
 Example output displayed on the console when building and running with maven
 
 ```text
+D:\> git clone https://github.com/v12technology/fluxtion-quickstart.git
+Cloning into 'fluxtion-quickstart'...
+D:\> cd .\fluxtion-quickstart\
 D:\fluxtion-quickstart> mvn install
-
-... removed maven build output for clarity
-
 D:\fluxtion-quickstart> mvn exec:java
 
 -----------------------------------
@@ -86,12 +86,13 @@ trading pnl:-50.0
 
 # Program description
 Create a processing graph that monitors trade pnl and issues stop loss/take profit orders when the profit falls                
-outside a range for trading in instrument "BTC". The example demonstrates:
+outside a range for trading in instrument "BTC". Events are fed to the graph, it is the processing of events that 
+drives calculations and actions. This example demonstrates:
  - Building a graph with declarative streams                                                                         
  - Binds a user class into the graph for imperative programming                                                      
  - Sending events to the generated graph      
- - Calculates values and conditionally invokes actions 
- - Peeks into the graph publishing various node states to the console                                                                                                                            
+ - Calculate values and conditionally invoke actions 
+ - Peeks into the graph publishing selected node states to the console                                                                                                                            
 
 **Incoming events processed:**                                                                                                                          
  - [TradeEvent](src/main/java/com/fluxtion/learning/quicktart/stoploss/TradeEvent.java) An execution of a trade
@@ -126,8 +127,58 @@ Node values calculated using the streaming api and functional prograaming approa
 
 The Profit and loss trader will issue a hedge trade on a pnl breach. Only one hedge trade can be active in the market,          
 even if additional breaches are reached. When an [OrderDoneEvent](src/main/java/com/fluxtion/learning/quicktart/stoploss/OrderDoneEvent.java)  
-event is received by the ProfitAndLossTrader then additional hedging orders can be issued.                                                                                        
+event is received by the ProfitAndLossTrader then additional hedging orders can be issued.  
 
- 
+### Data stream functional programming
+Node can be defined using a stream like api supplying functions. Each node is a live element in the graph and 
+can be used to drive other nodes.
 
+### Subscribing and filtering
+An entry point to the graph is an event which can be subscribed to using the event type. A filter operation can be
+applied to the stream as a lambda or method reference. Only matching events will propagate through the graph. 
+The statement below subscribes to TradeEvents, and propagates events where instrumentName == "BTC"
 
+```java
+var btcTradeStream = EventFlow.subscribe(TradeEvent.class)
+        .peek(Peekers.console("-----------------------------------\n{}"))
+        .filter(Main::filterBTCInstrument);
+```
+### Chaining nodes and pushing values
+The result of a previous node can be used drive downstream nodes. If the same upstream node is re-used a processing 
+graph will be created as opposed to a simple pipeline. The upstream filtered trade stream, btcTradeStream, is used to 
+calculate a cumulative trade volume for BTC by applying a pipeline of mapping functions. The cumulative sum is pushed
+into the application instance pnlTrader#setAssetPosition
+
+```java
+var cumulativeTradedVolume = btcTradeStream
+        .mapToInt(TradeEvent::getVolume)
+        .map(new Mappers.SumInt()::add)
+        .push(pnlTrader::setAssetPosition)
+        .peek(Peekers.console("BTC position:{}"));
+```
+
+### Imperative logic and integrating user classes
+
+Not all logic is effectively declared with functional programming constructs. A user class can be added to the graph 
+and imperative logic added to a callback method. 
+
+The ProfitAndLossTrader has two callback methods, pnl value is pushed from an upstream node, an event OrderDone handler
+is wired using an @OnEventHandler annotation. Imperative logic in the pnlBreach determines whether to issue an order
+or not.
+
+```java
+    @OnEventHandler
+    public void orderDone(OrderDoneEvent trade){
+        System.out.println("-----------------------------------\nHedge order complete");
+        canHedge = true;
+    }
+
+    public void pnlBreach(double pnl){
+        if(canHedge) {
+            System.out.println("HEDGE pnl breach " + pnl + " - send a trade to clear position:" + assetPosition);
+            canHedge = false;
+        }else {
+            System.out.println("NO HEDGE pnl breach " + pnl + " - live order still not done");
+        }
+    }
+```
