@@ -49,6 +49,31 @@ import com.fluxtion.runtime.stream.helpers.Peekers;
  * The Profit and loss trader will issue a hedge trade on a pnl breach. Only one hedge trade can be active in the market,
  * even if additional breaches are reached. When an {@link OrderDoneEvent} event is received by the ProfitAndLossTrader then
  * additional hedging orders can be issued.
+ * <p>
+ * <pre>
+ *
+ * Sample output:
+ * -----------------------------------
+ * Trade(instrument=BTC, volume=100, price=3.0)
+ * BTC position:100
+ * BTC position mark to market:NaN
+ * cash position:-300.0
+ * trading pnl:NaN
+ * -----------------------------------
+ * Trade(instrument=NOT-BTC, volume=100, price=35000.0)
+ * -----------------------------------
+ * PriceUpdate(instrument=BTC, bid=2.0, offer=3.0)
+ * BTC position mark to market:250.0
+ * trading pnl:-50.0
+ * -----------------------------------
+ * Trade(instrument=BTC, volume=200, price=4.0)
+ * BTC position:300
+ * BTC position mark to market:750.0
+ * cash position:-1100.0
+ * trading pnl:-350.0
+ * HEDGE pnl breach -350.0 - send a trade to clear position:300
+ * -----------------------------------
+ * </pre>
  */
 public class Main {
 
