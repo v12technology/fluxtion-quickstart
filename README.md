@@ -13,7 +13,7 @@ To get benefit out of this tutorial you should have:
  - Install git, maven and Java version 11 or higher
  - Clone the repository from version control
  - build using maven install 
- - Run the main java class from ide or maven
+ - Run the [Main](src/main/java/com/fluxtion/learning/quicktart/stoploss/Main.java) java class from ide or maven
 
 Example output displayed on the console when building and running with maven
 
@@ -94,9 +94,9 @@ outside a range for trading in instrument "BTC". The example demonstrates:
  - Peeks into the graph publishing various node states to the console                                                                                                                            
 
 **Incoming events processed:**                                                                                                                          
- - [TradeEvent](src/main/java/com/fluxtion/learning/quicktart/stoploss/TradeEvent.java)                                                                                              
- - [PriceUpdateEvent](src/main/java/com/fluxtion/learning/quicktart/stoploss/PriceUpdateEvent.java)                                                                                        
- - [OrderDoneEvent](src/main/java/com/fluxtion/learning/quicktart/stoploss/OrderDoneEvent.java)                                                                                           
+ - [TradeEvent](src/main/java/com/fluxtion/learning/quicktart/stoploss/TradeEvent.java) An execution of a trade
+ - [PriceUpdateEvent](src/main/java/com/fluxtion/learning/quicktart/stoploss/PriceUpdateEvent.java) Update of the price of an asset in the market
+ - [OrderDoneEvent](src/main/java/com/fluxtion/learning/quicktart/stoploss/OrderDoneEvent.java) Notifies that a hedging stop/loss order has completed
 
 ## Building the graph 
 The graph is built in the [Main](src/main/java/com/fluxtion/learning/quicktart/stoploss/Main.java) method and initialised
