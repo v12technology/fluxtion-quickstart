@@ -11,11 +11,11 @@
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="handlerTrade">
+        <node id="handlerTradeEvent">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="&lt;&lt;EventHandle&gt;&gt;&#10;handlerTrade:&#10;DefaultFilteredEventHandler"/>
+                    <jGraph:label text="&lt;&lt;EventHandle&gt;&gt;&#10;handlerTradeEvent:&#10;DefaultFilteredEventHandler"/>
                     <jGraph:Style properties="EVENTHANDLER"/>
                 </jGraph:ShapeNode>
             </data>
@@ -47,11 +47,11 @@
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="handlerPriceUpdate">
+        <node id="handlerPriceUpdateEvent">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="&lt;&lt;EventHandle&gt;&gt;&#10;handlerPriceUpdate:&#10;DefaultFilteredEventHandler"/>
+                    <jGraph:label text="&lt;&lt;EventHandle&gt;&gt;&#10;handlerPriceUpdateEvent:&#10;DefaultFilteredEventHandler"/>
                     <jGraph:Style properties="EVENTHANDLER"/>
                 </jGraph:ShapeNode>
             </data>
@@ -308,34 +308,34 @@
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="Trade">
+        <node id="TradeEvent">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="&lt;&lt;Event&gt;&gt;&#10;Trade"/>
+                    <jGraph:label text="&lt;&lt;Event&gt;&gt;&#10;TradeEvent"/>
                     <jGraph:Style properties="EVENT"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="PriceUpdate">
+        <node id="PriceUpdateEvent">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="&lt;&lt;Event&gt;&gt;&#10;PriceUpdate"/>
+                    <jGraph:label text="&lt;&lt;Event&gt;&gt;&#10;PriceUpdateEvent"/>
                     <jGraph:Style properties="EVENT"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <node id="OrderDone">
+        <node id="OrderDoneEvent">
             <data key="vertex_label">
                 <jGraph:ShapeNode>
                     <jGraph:Geometry height="70" width="160" x="20" y="20"/>
-                    <jGraph:label text="&lt;&lt;Event&gt;&gt;&#10;OrderDone"/>
+                    <jGraph:label text="&lt;&lt;Event&gt;&gt;&#10;OrderDoneEvent"/>
                     <jGraph:Style properties="EVENT"/>
                 </jGraph:ShapeNode>
             </data>
         </node>
-        <edge id="1" source="handlerTrade" target="peekEventStream_1">
+        <edge id="1" source="handlerTradeEvent" target="peekEventStream_1">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
@@ -350,7 +350,7 @@
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="4" source="handlerPriceUpdate" target="peekEventStream_3">
+        <edge id="4" source="handlerPriceUpdateEvent" target="peekEventStream_3">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
@@ -520,17 +520,17 @@
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="38" source="Trade" target="handlerTrade">
+        <edge id="38" source="TradeEvent" target="handlerTradeEvent">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="39" source="PriceUpdate" target="handlerPriceUpdate">
+        <edge id="39" source="PriceUpdateEvent" target="handlerPriceUpdateEvent">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>
         </edge>
-        <edge id="40" source="OrderDone" target="profitAndLossTrader_11">
+        <edge id="40" source="OrderDoneEvent" target="profitAndLossTrader_11">
             <data key="edge_label">
                 <jGraph:ShapeEdge/>
             </data>

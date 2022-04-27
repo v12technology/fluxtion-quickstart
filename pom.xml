@@ -11,6 +11,7 @@
     <properties>
         <maven.compiler.source>15</maven.compiler.source>
         <maven.compiler.target>15</maven.compiler.target>
+        <exec.mainClass>com.fluxtion.learning.quicktart.stoploss.Main</exec.mainClass>
     </properties>
 
 
@@ -26,11 +27,6 @@
             <artifactId>lombok</artifactId>
             <version>1.18.24</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>ch.qos.logback</groupId>
-            <artifactId>logback-classic</artifactId>
-            <version>1.2.11</version>
         </dependency>
     </dependencies>
 
