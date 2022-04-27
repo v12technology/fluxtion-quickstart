@@ -124,7 +124,44 @@ tradeController.init();
 
 The actual graph is constructed in the method ```private static void buildPnLControl(SEPConfig cfg)``` the supplied 
 SEPConfig can be used to customise the graph before generation. In this example no customisation is required.
- 
+```java
+    private static void buildPnLControl(SEPConfig cfg){
+        ProfitAndLossTrader pnlTrader = new ProfitAndLossTrader();
+
+        var btcTradeStream = EventFlow.subscribe(TradeEvent.class)
+                .peek(Peekers.console("-----------------------------------\n{}"))
+                .filter(Main::filterBTCInstrument);
+
+        var btcMidPriceStream = EventFlow.subscribe(PriceUpdateEvent.class)
+                .peek(Peekers.console("-----------------------------------\n{}"))
+                .filter(Main::filterBTCInstrument)
+                .mapToDouble(PriceUpdateEvent::getMidPrice)
+                .defaultValue(Double.NaN);
+
+        var cumulativeTradedVolume = btcTradeStream
+                .mapToInt(TradeEvent::getVolume)
+                .map(new Mappers.SumInt()::add)
+                .push(pnlTrader::setAssetPosition)
+                .peek(Peekers.console("BTC position:{}"));
+
+        var assetValue = cumulativeTradedVolume
+                .mapToDouble(i -> i)
+                .map(Mappers.MULTIPLY_DOUBLES, btcMidPriceStream)
+                .peek(Peekers.console("BTC position mark to market:{}"));
+
+        //calculate pnl and push to ProfitAndLossTrader if pnl limits are breached
+        btcTradeStream
+                .mapToDouble(TradeEvent::getVolume)
+                .map(d -> d * -1)
+                .map(Mappers.MULTIPLY_DOUBLES, btcTradeStream.mapToDouble(TradeEvent::getPrice))
+                .map(new Mappers.SumDouble()::add)
+                .peek(Peekers.console("cash position:{}"))
+                .map(Mappers.ADD_DOUBLES, assetValue)
+                .peek(Peekers.console("trading pnl:{}"))
+                .filter(pnl -> pnl < -300 || pnl > 300)
+                .push(pnlTrader::pnlBreach);
+    }
+``` 
 The node calculations are defined with the stream functional api. A user class, [ProfitAndLossTrader](src/main/java/com/fluxtion/learning/quicktart/stoploss/ProfitAndLossTrader.java)
 is integrated in the graph and bound to the outputs of a sub-set of stream nodes. The ProfitAndLossTrader is responsible
 for issuing hedging orders with imperative logic.
