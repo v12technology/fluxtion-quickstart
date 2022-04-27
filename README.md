@@ -83,16 +83,31 @@ BTC position mark to market:0.0
 cash position:-50.0
 trading pnl:-50.0
 ```
+The input events that drive the program are:
+```java
+processor.onEvent(new TradeEvent("BTC", 100, 3));
+processor.onEvent(new TradeEvent("NOT-BTC", 100, 35_000));
+processor.onEvent(new PriceUpdateEvent("BTC", 2, 3.0));
+processor.onEvent(new TradeEvent("BTC", 200, 4));
+processor.onEvent(new TradeEvent("BTC", 30, 3.5));
+processor.onEvent(new OrderDoneEvent());
+processor.onEvent(new TradeEvent("BTC", 30, 3.5));
+processor.onEvent(new TradeEvent("BTC", -300, 3));
+processor.onEvent(new PriceUpdateEvent("BTC", 1, 2.0));
+processor.onEvent(new OrderDoneEvent());
+processor.onEvent(new PriceUpdateEvent("BTC", 5, 7.0));
+processor.onEvent(new TradeEvent("BTC", -60, 6));
+```
 
 # Program description
 Create a processing graph that monitors trade pnl and issues stop loss/take profit orders when the profit falls                
-outside a range for trading in instrument "BTC". Events are fed to the graph, it is the processing of events that 
+outside a range for trading in instrument "BTC". Events are fed into the graph, the processing of events 
 drives calculations and actions. This example demonstrates:
- - Building a graph with declarative streams                                                                         
+ - Building a graph with functional stream api                                                                         
  - Binds a user class into the graph for imperative programming                                                      
  - Sending events to the generated graph      
- - Calculate values and conditionally invoke actions 
- - Peeks into the graph publishing selected node states to the console                                                                                                                            
+ - Calculating realtime values and conditionally invoking actions 
+ - Peeking into the graph and publishing selected node states to the console                                                                                                                            
 
 **Incoming events processed:**                                                                                                                          
  - [TradeEvent](src/main/java/com/fluxtion/learning/quicktart/stoploss/TradeEvent.java) An execution of a trade
@@ -110,18 +125,17 @@ tradeController.init();
 The actual graph is constructed in the method ```private static void buildPnLControl(SEPConfig cfg)``` the supplied 
 SEPConfig can be used to customise the graph before generation. In this example no customisation is required.
  
-The graph maintains the state of nodes that are updated with incoming events. The node calculations are                 
-defined with the stream functional api. A user class, [ProfitAndLossTrader](src/main/java/com/fluxtion/learning/quicktart/stoploss/ProfitAndLossTrader.java)
+The node calculations are defined with the stream functional api. A user class, [ProfitAndLossTrader](src/main/java/com/fluxtion/learning/quicktart/stoploss/ProfitAndLossTrader.java)
 is integrated in the graph and bound to the outputs of a sub-set of stream nodes. The ProfitAndLossTrader is responsible
 for issuing hedging orders with imperative logic.
 
-Node values calculated using the streaming api and functional prograaming approach, similar to java 8 streams:
+Node values calculated using the streaming api:
  - btcTradeStream -  a stream of trades that are filtered for instrument "BTC"
- - btcMidPriceStream -  a stream of mid prices that are filtered for instrument "BTC", the initial value is Double.NaN
- - cumulativeTradedVolume - extracts a trades volume from btcTradeStream, and keeps a cumulative sum.                      
-    Pushes the result to ```ProfitAndLossTrader#setAssetPosition(int)```. This is a stateful calculation
+ - btcMidPriceStream -  a stream of mid-prices that are filtered for instrument "BTC", the initial value is Double.NaN
+ - cumulativeTradedVolume - extracts a Trade's volume from btcTradeStream, and maintains a cumulative sum.                      
+    Pushes the result to ```ProfitAndLossTrader#setAssetPosition(int)```.
  - assetValue - The current value of the assets at current market price. Multiplies cumulativeTradedVolume by              
-    btcMidPriceStream. This is a stateful calculation
+    btcMidPriceStream.
  - pnl breach monitor - pnl = sum of cash position + assetValue. if(pnl outside range) then notify the                     
     ProfitAndLossTrader of the breach
 
@@ -130,13 +144,13 @@ even if additional breaches are reached. When an [OrderDoneEvent](src/main/java/
 event is received by the ProfitAndLossTrader then additional hedging orders can be issued.  
 
 ### Data stream functional programming
-Node can be defined using a stream like api supplying functions. Each node is a live element in the graph and 
+Node can be defined using a stream like api. Each node is a live element in the graph and 
 can be used to drive other nodes.
 
 #### Subscribing and filtering
-An entry point to the graph is an event which can be subscribed to using the event type. A filter operation can be
-applied to the stream as a lambda or method reference. Only matching events will propagate through the graph. 
-The statement below subscribes to TradeEvents, and propagates events where instrumentName == "BTC"
+An entry point to the graph is an event which can be subscribed to using the event type as an argument. A filter 
+operation can be applied to the stream as a lambda or method reference. Only matching events will propagate through the 
+graph. The statement below subscribes to TradeEvents, and propagates events where instrumentName == "BTC"
 
 ```java
 var btcTradeStream = EventFlow.subscribe(TradeEvent.class)
@@ -144,7 +158,7 @@ var btcTradeStream = EventFlow.subscribe(TradeEvent.class)
         .filter(Main::filterBTCInstrument);
 ```
 #### Chaining nodes and pushing values
-The result of a previous node can be used drive downstream nodes. If the same upstream node is re-used a processing 
+The result of a previous node can be used to drive downstream nodes. If an upstream node is re-used a processing 
 graph will be created as opposed to a simple pipeline. The upstream filtered trade stream, btcTradeStream, is used to 
 calculate a cumulative trade volume for BTC by applying a pipeline of mapping functions. The cumulative sum is pushed
 into the application instance pnlTrader#setAssetPosition
@@ -159,35 +173,35 @@ var cumulativeTradedVolume = btcTradeStream
 
 ### Imperative logic and integrating user classes
 
-Not all logic is effectively declared with functional programming constructs. A user class can be added to the graph 
-and imperative logic added to a callback method. 
+Not all logic is efficiently declared with functional programming constructs. A user class can be added to the graph 
+and imperative logic triggered in a callback method. 
 
-The ProfitAndLossTrader has two callback methods, pnl value is pushed from an upstream node, an event OrderDone handler
-is wired using an @OnEventHandler annotation. Imperative logic in the pnlBreach determines whether to issue an order
-or not.
+The ProfitAndLossTrader has two callback methods, pnl value is pushed from an upstream node, and an event handler for
+OrderDoneEvent's is wired in using an @OnEventHandler annotation. Imperative logic in the pnlBreach determines 
+whether to issue an order or not.
 
 ```java
-    @OnEventHandler
-    public void orderDone(OrderDoneEvent trade){
-        System.out.println("-----------------------------------\nHedge order complete");
-        canHedge = true;
-    }
+@OnEventHandler
+public void orderDone(OrderDoneEvent trade){
+    System.out.println("-----------------------------------\nHedge order complete");
+    canHedge = true;
+}
 
-    public void pnlBreach(double pnl){
-        if(canHedge) {
-            System.out.println("HEDGE pnl breach " + pnl + " - send a trade to clear position:" + assetPosition);
-            canHedge = false;
-        }else {
-            System.out.println("NO HEDGE pnl breach " + pnl + " - live order still not done");
-        }
+public void pnlBreach(double pnl){
+    if(canHedge) {
+        System.out.println("HEDGE pnl breach " + pnl + " - send a trade to clear position:" + assetPosition);
+        canHedge = false;
+    }else {
+        System.out.println("NO HEDGE pnl breach " + pnl + " - live order still not done");
     }
+}
 ```
 
 ## Processing events
-Once the graph has been built and initialised it is ready to process events. Events can be POJO's, are fed into the 
+Once the graph has been built and initialised it is ready to process events. Events instances are fed into the 
 processor ```processor.onEvent(event)```. All dispatch and routing of method calls is taken care of by the processor.
 
-In this example the sendData method sends a set of sample of events for processing:
+In this example the sendData method sends a sample set of events for processing, in this case events are simple POJO's:
 
 ```java
     private static void sendData(EventProcessor processor){
