@@ -1,7 +1,8 @@
 # Introduction
 5 Minute tutorial to demonstrate stream data processing using Fluxtion. 
 The goal is to monitor trades in a specific asset and issue stop loss or take profit orders when a the profit or loss 
-exceeds a set value.
+exceeds a set value. Events are fed into the system, trade values are calculated and order actions are invoked if
+necessary.
 
 To get benefit out of this tutorial you should have:
 
@@ -9,11 +10,12 @@ To get benefit out of this tutorial you should have:
  - Intermediate Java coding skills combined with basic knowledge of git and maven
 
 # Running the project
+ - Install git, maven and Java version 11 or higher
  - Clone the repository from version control
  - build using maven install 
  - Run the main java class from ide or maven
 
-Output will be displayed on the console when the program is run
+Example output displayed on the console when building and running with maven
 
 ```text
 D:\fluxtion-quickstart> mvn install
@@ -83,45 +85,48 @@ trading pnl:-50.0
 ```
 
 # Program description
-Quick start example, run main method and view the output.
-<P>                                                                                                                             
-
-Creates a processing graph that monitors trade pnl and issues stop loss/take profit orders when the profit falls                
+Create a processing graph that monitors trade pnl and issues stop loss/take profit orders when the profit falls                
 outside a range for trading in instrument "BTC". The example demonstrates:
-<ul>                                                                                                                            
-    <li>Building a graph with declarative streams</li>                                                                          
-    <li>Binds a user class into the graph for imperative programming</li>                                                       
-    <li>Sending events to the generated graph</li>                                                                              
-    <li>Peeks into the graph publish various node states to the console</li>                                                    
-</ul>                                                                                                                           
-<P>                                                                                                                             
+ - Building a graph with declarative streams                                                                         
+ - Binds a user class into the graph for imperative programming                                                      
+ - Sending events to the generated graph      
+ - Calculates values and conditionally invokes actions 
+ - Peeks into the graph publishing various node states to the console                                                                                                                            
 
-Incoming events processed:                                                                                                                          
+**Incoming events processed:**                                                                                                                          
  - [TradeEvent](src/main/java/com/fluxtion/learning/quicktart/stoploss/TradeEvent.java)                                                                                              
  - [PriceUpdateEvent](src/main/java/com/fluxtion/learning/quicktart/stoploss/PriceUpdateEvent.java)                                                                                        
  - [OrderDoneEvent](src/main/java/com/fluxtion/learning/quicktart/stoploss/OrderDoneEvent.java)                                                                                           
- 
-Filters {@link TradeEvent} amd {@link PriceUpdateEvent} for {@link InstrumentEvent#getInstrument()} == "BTC"                    
-The graph maintains the state of several nodes that are updated with incoming events. The node calculations are                 
-defined with the stream functional api. A user class, {@link ProfitAndLossTrader} is integrated in the graph and bound          
-to the outputs of a sub-set of stream nodes.
-<p>                                                                                                                             
 
-The declarative streaming calculation node calculations:
-<ul>                                                                                                                            
-    <li>btcTradeStream -  a stream of trades that are filtered for instrument "BTC"</li>                                        
-    <li>btcMidPriceStream -  a stream of mid prices that are filtered for instrument "BTC", the initial value is Double.NaN</li>
-    <li>cumulativeTradedVolume - extracts a trades volume from btcTradeStream, and keeps a cumulative sum.                      
-    Pushes the result to {@link ProfitAndLossTrader#setAssetPosition(int)}. This is a stateful calculation</li>                 
-    <li>assetValue - The current value of the assets at current market price. Multiplies cumulativeTradedVolume by              
-    btcMidPriceStream. This is a stateful calculation</li>                                                                      
-    <li>pnl breach monitor - pnl = sum of cash position + assetValue. if(pnl outside range) then notify the                     
-    ProfitAndLossTrader of the breach</li>                                                                                      
-</ul>                                                                                                                           
+## Building the graph 
+The graph is built in the [Main](src/main/java/com/fluxtion/learning/quicktart/stoploss/Main.java) method and initialised
+ready to process events with:
+```java
+EventProcessor tradeController = Fluxtion.interpret(Main::buildPnLControl);
+tradeController.init();
+```
+
+The actual graph is constructed in the method ```private static void buildPnLControl(SEPConfig cfg)``` the supplied 
+SEPConfig can be used to customise the graph before generation. In this example no customisation is required.
+ 
+The graph maintains the state of nodes that are updated with incoming events. The node calculations are                 
+defined with the stream functional api. A user class, [ProfitAndLossTrader](src/main/java/com/fluxtion/learning/quicktart/stoploss/ProfitAndLossTrader.java)
+is integrated in the graph and bound to the outputs of a sub-set of stream nodes. The ProfitAndLossTrader is responsible
+for issuing hedging orders with imperative logic.
+
+Node values calculated using the streaming api and functional prograaming approach, similar to java 8 streams:
+ - btcTradeStream -  a stream of trades that are filtered for instrument "BTC"
+ - btcMidPriceStream -  a stream of mid prices that are filtered for instrument "BTC", the initial value is Double.NaN
+ - cumulativeTradedVolume - extracts a trades volume from btcTradeStream, and keeps a cumulative sum.                      
+    Pushes the result to ```ProfitAndLossTrader#setAssetPosition(int)```. This is a stateful calculation
+ - assetValue - The current value of the assets at current market price. Multiplies cumulativeTradedVolume by              
+    btcMidPriceStream. This is a stateful calculation
+ - pnl breach monitor - pnl = sum of cash position + assetValue. if(pnl outside range) then notify the                     
+    ProfitAndLossTrader of the breach
 
 The Profit and loss trader will issue a hedge trade on a pnl breach. Only one hedge trade can be active in the market,          
-even if additional breaches are reached. When an {@link OrderDoneEvent} event is received by the ProfitAndLossTrader then       
-additional hedging orders can be issued.                                                                                        
+even if additional breaches are reached. When an [OrderDoneEvent](src/main/java/com/fluxtion/learning/quicktart/stoploss/OrderDoneEvent.java)  
+event is received by the ProfitAndLossTrader then additional hedging orders can be issued.                                                                                        
 
  
 
