@@ -133,7 +133,7 @@ event is received by the ProfitAndLossTrader then additional hedging orders can 
 Node can be defined using a stream like api supplying functions. Each node is a live element in the graph and 
 can be used to drive other nodes.
 
-### Subscribing and filtering
+#### Subscribing and filtering
 An entry point to the graph is an event which can be subscribed to using the event type. A filter operation can be
 applied to the stream as a lambda or method reference. Only matching events will propagate through the graph. 
 The statement below subscribes to TradeEvents, and propagates events where instrumentName == "BTC"
@@ -143,7 +143,7 @@ var btcTradeStream = EventFlow.subscribe(TradeEvent.class)
         .peek(Peekers.console("-----------------------------------\n{}"))
         .filter(Main::filterBTCInstrument);
 ```
-### Chaining nodes and pushing values
+#### Chaining nodes and pushing values
 The result of a previous node can be used drive downstream nodes. If the same upstream node is re-used a processing 
 graph will be created as opposed to a simple pipeline. The upstream filtered trade stream, btcTradeStream, is used to 
 calculate a cumulative trade volume for BTC by applying a pipeline of mapping functions. The cumulative sum is pushed
@@ -180,5 +180,28 @@ or not.
         }else {
             System.out.println("NO HEDGE pnl breach " + pnl + " - live order still not done");
         }
+    }
+```
+
+## Processing events
+Once the graph has been built and initialised it is ready to process events. Events can be POJO's, are fed into the 
+processor ```processor.onEvent(event)```. All dispatch and routing of method calls is taken care of by the processor.
+
+In this example the sendData method sends a set of sample of events for processing:
+
+```java
+    private static void sendData(EventProcessor processor){
+        processor.onEvent(new TradeEvent("BTC", 100, 3));
+        processor.onEvent(new TradeEvent("NOT-BTC", 100, 35_000));
+        processor.onEvent(new PriceUpdateEvent("BTC", 2, 3.0));
+        processor.onEvent(new TradeEvent("BTC", 200, 4));
+        processor.onEvent(new TradeEvent("BTC", 30, 3.5));
+        processor.onEvent(new OrderDoneEvent());
+        processor.onEvent(new TradeEvent("BTC", 30, 3.5));
+        processor.onEvent(new TradeEvent("BTC", -300, 3));
+        processor.onEvent(new PriceUpdateEvent("BTC", 1, 2.0));
+        processor.onEvent(new OrderDoneEvent());
+        processor.onEvent(new PriceUpdateEvent("BTC", 5, 7.0));
+        processor.onEvent(new TradeEvent("BTC", -60, 6));
     }
 ```
