@@ -1,5 +1,5 @@
 # Introduction
-5 Minute tutorial to demonstrate stream data processing using Fluxtion. 
+5 Minute tutorial to demonstrate stream data processing using [Fluxtion](https://github.com/v12technology/fluxtion). 
 The goal is to monitor trades in a specific asset and issue stop loss or take profit orders when a the profit or loss 
 exceeds a set value. Events are fed into the system, trade values are calculated and order actions are invoked if
 necessary.
